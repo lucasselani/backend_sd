@@ -1,0 +1,26 @@
+version: '2'
+services:
+  server:
+    build: ./server
+    ports:
+    - "5000:5000"
+    depends_on:
+    - db
+    environment:
+    - DATABASE_HOST=db
+    volumes:
+    - ./server:/usr/src/app
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    environment:
+      PMA_ARBITRARY: 1
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "80:80"
+    links:
+      # for mysql container
+      - "db:db"
+  db:
+    build: ./database
