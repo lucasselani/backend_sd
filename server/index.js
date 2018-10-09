@@ -8,10 +8,11 @@ var server = restify.createServer({
     name: 'Backend SD'
 });
 var con = {
-    host: 'localhost',
+    host: process.env.DATABASE_HOST || '127.0.0.1',
     user: 'root',
     password: 'root',
-    database: 'sd'
+    database: 'ec021',
+    insecureAuth : true
 }
 
 // ENDPOINT FUNCTIONS
@@ -24,7 +25,7 @@ function getList(req, res, next) {
 
     var strQuery = `SELECT * FROM toddy`;
 
-    connect.query(strQuery, function(err, rows, fields) {
+    connection.query(strQuery, function(err, rows, fields) {
         if(!err) {
             res.json(rows);
         } else {
@@ -55,7 +56,7 @@ function insert(req, res, next) {
     var strQuery = `INSERT INTO toddy (lote, conteudo, validade) 
         VALUES (${toddy.lote}, ${toddy.conteudo}, ${toddy.validade})`;
 
-    connect.query(strQuery, function(err, rows, fields) {
+        connection.query(strQuery, function(err, rows, fields) {
         if(!err) {
             res.json(rows);
         } else {

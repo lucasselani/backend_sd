@@ -4,12 +4,15 @@ services:
     build: ./server
     ports:
     - "5000:5000"
+    links:
+      # for mysql container
+      - "db:db"
     depends_on:
     - db
     environment:
-    - DATABASE_HOST=db
+      - DATABASE_HOST=db
     volumes:
-    - ./server:/usr/src/app
+      - ./server:/usr/src/app
   phpmyadmin:
     image: phpmyadmin/phpmyadmin:latest
     environment:
